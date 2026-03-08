@@ -19,6 +19,19 @@ function renderMath(el) {
   });
 }
 
+// ── Sidebar (mobile) ──────────────────────────────────────────────────────────
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  const open = sb.classList.toggle('open');
+  ov.classList.toggle('active', open);
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('active');
+}
+
 let currentChapter = 1;
 let currentTab = 'overview';
 const completedChapters = new Set(JSON.parse(localStorage.getItem('rl_completed') || '[]'));
@@ -47,7 +60,7 @@ function buildNav() {
       <span class="ch-num">Ch.${String(ch.id).padStart(2,'0')}</span>
       <span class="ch-name">${ch.title}</span>
       <div class="ch-dot"></div>`;
-    item.onclick = () => loadChapter(ch.id);
+    item.onclick = () => { loadChapter(ch.id); closeSidebar(); };
     nav.appendChild(item);
   });
   updateProgress();
